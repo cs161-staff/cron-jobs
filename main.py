@@ -32,19 +32,23 @@ def process(request_json):
     rubric_item = feedback_question.get('rubric_items')[0].get('id')
     question_id = feedback_question.get('id')
 
-    # Fetch all student submissions
-    submissions = grader.sub_id_to_questions_id()
+    seen = set()
+    while True:
+        next_sub_id = client.grading_grade_first_ungraded_or_first(class_id=course_id, question_id=question_id)
+        if not next_sub_id:
+            break
+        
+        if next_sub_id in seen:
+            break
+        else:
+            seen.add(next_sub_id)
+            
+        print('Grading', next_sub_id)
 
-    # Grade all student submissions' feedback question 
-    n = len(submissions)
-
-    for i, submission in enumerate(submissions.values()):
-        print(f'Grading {i + 1} of {n}...')
-        submission_id = submission.get('9')
         result = client.grading_save(
             class_id=course_id,
             question_id=question_id,
-            submission_id=submission_id,
+            submission_id=next_sub_id,
             data={"rubric_items": {
                 str(rubric_item): {
                     "score": "true"
@@ -54,12 +58,14 @@ def process(request_json):
                 "comments": None
             }}
         )
-        
         if result.status_code != 200:
             print('Error!')
             print(result.text)
             raise RuntimeError("Grading Failure. HTTP Output:\n\n" + str(result.text))
-
+            
+    n = len(seen) - 1
+    print(f'Finished grading! Graded {n} submissions in this round.')
+    
     return {
         'success': True,
         'message': f'Autograded {n} submissions.'
