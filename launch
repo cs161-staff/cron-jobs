@@ -1,2 +1,0 @@
-gcloud config configurations activate cs161
-gcloud functions deploy grade_feedback

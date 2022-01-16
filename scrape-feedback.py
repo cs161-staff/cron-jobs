@@ -10,7 +10,7 @@ password = getpass("Gradescope Password:")
 
 # Set these values based on assignment
 course_id = 290298
-assignment_id = 1436672
+assignment_id = input("assignment_id:")
 
 # Get a handle to the CS 61C Gradescope Client
 client = GradescopeClient()
@@ -24,8 +24,11 @@ question_id = feedback_question.get('id')
 
 submissions = grader.sub_id_to_questions_id()
 
+print('scraping...')
+
 rows = []
 for i, row in enumerate(submissions.values()):
+    print(i)
     submission_id = row.get('9')
     data = client.grading_get_submission_grader(class_id=course_id, question_id=question_id, submission_id=submission_id)
     data = json.loads(data).get('submission').get('answers')
