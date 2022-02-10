@@ -1,5 +1,6 @@
-from src import grade_feedback
+from src import grade_feedback as feedback
 
 
 def grade_feedback(request):
-    grade_feedback.process(None)
+    feedback.process(None)
+    return {'success': True}

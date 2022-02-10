@@ -8,3 +8,6 @@ In `main.py`, there's a `grade_feedback` endpoint that's deployed as a Google Cl
 
 ### Scraping the Feedback Question (Local Script)
 To scrape the feedback question, run `python scripts/scrape-feedback.py` locally (after creating a virtualenv using `python -m venv cron-jobs`, activating using `source cron-jobs/bin/activate`, and installing requirements using `pip install -r requirements.txt`). This will prompt you for a username + password, and then scrape the feedback question and dump results into a text file called `feedback.txt`
+
+### Authenticating
+To run both of these scripts, you'll need a valid `service-account.json` file in the root folder of this project. To get this file, create one [here](https://console.cloud.google.com/iam-admin/serviceaccounts/details/111705062572501029675/keys?project=cs161-logistics) (or, download an existing `service-account.json` file from the deployed cloud function.)
