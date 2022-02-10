@@ -1,7 +1,3 @@
 deploy-grade-feedback:
-	gcloud config configurations activate cs161
-	gcloud functions deploy grade_feedback
-
-deploy-extensions:
-	gcloud config configurations activate cs161
-	gcloud functions deploy handle_extension_request --trigger-http --runtime python39
+	gcloud config set project cs161-logistics
+	gcloud functions deploy grade_feedback --trigger-http --runtime python39

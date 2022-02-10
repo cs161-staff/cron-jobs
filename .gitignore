@@ -1,6 +1,8 @@
+service-account.json
 .DS_Store
 __pycache__/
 *.ipynb
 cron-jobs
 .ipynb_checkpoints/
 .env
+feedback.txt
